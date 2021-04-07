@@ -81,7 +81,8 @@ int wyznaczanieMaxIdAdresata ()
     plik.open("Adresaci.txt", ios::in);
     if (plik.good() == false)
     {
-
+    maxIdAdresataStala = 0;
+    return maxIdAdresataStala;
     }
     else
     {
@@ -143,7 +144,7 @@ void dodajUzytkownika(vector <Uzytkownik> &uzytkownicy)
 
     if (uzytkownicy.size()==0)
     {
-        adres.idUzytkownika = 0;
+        adres.idUzytkownika = 1;
     }
     else
     {
@@ -236,7 +237,7 @@ void zmianaHasla (vector <Uzytkownik> &uzytkownicy, int idUzytkownikaStala)
     cout << "Podaj nowe haslo: ";
     cin >> noweHaslo;
 
-    uzytkownicy[idUzytkownikaStala].haslo = noweHaslo;
+    uzytkownicy[idUzytkownikaStala-1].haslo = noweHaslo;
 
     string linia;
     fstream plik;
@@ -271,35 +272,6 @@ void zmianaHasla (vector <Uzytkownik> &uzytkownicy, int idUzytkownikaStala)
             }
         }
     }
-
-
-    /*
-    string linia;
-    fstream plik;
-    plik.open("Uzytkownicy.txt", ios::out | ios::in);
-    fstream tymczasowyPlik;
-    tymczasowyPlik.open("UzytkownicyKopia.txt", ios::out | ios::app);
-
-    for (int i = 0; !plik.eof(); i++)
-    {
-        getline (plik,linia);
-        if (linia!="")
-        {
-            string s = linia;
-            string delimiter = "|";
-            string token = s.substr(0, s.find(delimiter));
-            if (atoi(token.c_str()) == idUzytkownikaStala)
-            {
-                tymczasowyPlik << uzytkownicy[idUzytkownikaStala].idUzytkownika << "|" << uzytkownicy[idUzytkownikaStala].nazwa << "|" << uzytkownicy[idUzytkownikaStala].haslo << "|" << endl;
-            }
-            else
-            {
-                tymczasowyPlik << linia << endl;
-            }
-        }
-    }
-    */
-
     plik.close();
     tymczasowyPlik.close();
     remove("Uzytkownicy.txt");
@@ -388,7 +360,7 @@ void usuwanieAdresata(vector<Adresat> &adresaci, int idUzytkownikaStala)
     string idAdresataDoUsuniecia;
     cin >> idAdresataDoUsuniecia;
     cin.sync();
-    cout << endl << "Potwierdzasz? Tego wybory nie da sie cofnac (t/n): " << endl;
+    cout << "Potwierdzasz? Tego wybory nie da sie cofnac (t/n): " << endl;
     char wybor;
     wybor = getchar();
 
@@ -516,8 +488,6 @@ void edytowanieAdresata(vector<Adresat> &adresaci, int idUzytkownikaStala)
         }
     }
     aktualizowanieAdresatowPrzenoszenieStrukturDoPliku(adresaci, idUzytkownikaStala, idAdresataDoEdycji, numerAdresataWStrukturze);
-    system("pause");
-
 }
 
 void aktualizowanieAdresatowPrzenoszenieStrukturDoPliku(vector <Adresat> &adresaci, int idUzytkownikaStala, int idAdresataDoEdycji, int numerAdresataWStrukturze)
